@@ -4,34 +4,26 @@
       <Logo />
       <h1 class="title">Metamask Connector</h1>
       <div class="links">
-        <Button
+        <MetamaskConnectButton
           btnText="Connect To Metamask"
           btnClass="button--green"
-          :click="metamaskConnect"
-        ></Button>
-        <Button
+        ></MetamaskConnectButton>
+        <WalletConnectButton
           btnText="Connect with WallectConnect"
           btnClass="button--grey"
-          :click="walletConnect"
-        ></Button>
+        ></WalletConnectButton>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Button from "../components/Button";
+import MetamaskConnectButton from "../components/MetamaskConnectButton";
+import WalletConnectButton from "../components/WalletConnectButton";
 export default {
   components: {
-    Button,
-  },
-  methods: {
-    metamaskConnect: () => {
-      console.log("Connect Metamask");
-    },
-    walletConnect: () => {
-      console.log("Wallet Metamask");
-    },
+    MetamaskConnectButton,
+    WalletConnectButton,
   },
 };
 </script>

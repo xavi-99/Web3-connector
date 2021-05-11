@@ -4,7 +4,9 @@
 
 ```bash
 # install dependencies
-$ yarn install
+$ yarn install 
+or 
+$ npm i
 
 # serve with hot reload at localhost:3000
 $ yarn dev

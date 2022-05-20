@@ -1,22 +1,29 @@
 <template>
-  <button :class="btnClass" @click="connect">
-    {{ btnText }}
-  </button>
+
+  <div>
+
+    <button :class="btnClass" @click="connect"> {{ btnText }} </button>
+
+
+  </div>
+
 </template>
 
 <script>
 export default {
-  props: ["btnText", "btnClass"],
+  props: ['btnText', 'btnClass'],
   methods: {
     connect: () => {
-      if (typeof window.ethereum !== "undefined") {
-        console.log("MetaMask is installed!");
+      if (typeof window.ethereum !== 'undefined') {
+        console.log('MetaMask is installed!')
       }
-      ethereum.request({ method: 'eth_requestAccounts' });
-    },
-  },
-};
+      ethereum.request({ method: 'eth_requestAccounts' })
+    }
+  }
+}
 </script>
 
 <style>
+
 </style>
+

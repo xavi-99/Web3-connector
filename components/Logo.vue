@@ -1,13 +1,14 @@
 <template>
-  <img v-if="$store.state.wallet" class="logo" :src="logoSrc()" />
+  <img v-if="$store.state.wallet" class="logo" :src="logoSrc" />
 </template>
 
 <script>
 export default {
   computed: {
     logoSrc() {
-      debugger;
-      return '~/assets/' + this.$store.state.wallet + '.svg';
+      return require('../assets/' +
+        this.$store.state.wallet +
+        '.svg');
     },
   },
 };

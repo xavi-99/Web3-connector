@@ -40,14 +40,14 @@ export default {
     Button,
   },
   methods: {
-    ConnectToMetamask: () => {
+    ConnectToMetamask() {
       if (typeof window.ethereum !== 'undefined') {
         console.log('MetaMask is installed!');
-        this.$store.commit('walletUpdate');
       }
       window.ethereum.request({ method: 'eth_requestAccounts' });
+      this.$store.dispatch('walletUpdate', 'Metamask');
     },
-    connectToWallet: () => {
+    connectToWallet() {
       const connector = new WalletConnect({
         bridge: 'https://bridge.walletconnect.org', // Required
         qrcodeModal: QRCodeModal,

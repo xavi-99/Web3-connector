@@ -6,9 +6,8 @@ export const state = () => ({
 
 // contains your actions
 export const actions = {
-  walletUpdate({ state, commit, text }) {
-    debugger;
-    commit('setWallet', text);
+  walletUpdate({ state, commit }, walletName) {
+    commit('setWallet', walletName);
   },
 };
 // contains your mutations

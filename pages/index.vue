@@ -1,49 +1,33 @@
 <template>
-
   <b-container>
-
-    <div>
-
+    <b-row>
       <Logo />
+    </b-row>
 
-    </div>
+    <b-row class="fluid">
+      <b-col>
+        <h1>Wallet Connector</h1>
+      </b-col>
+    </b-row>
 
-    <b-container class="fluid">
+    <b-row>
+      <b-col>
+        <Button
+          btnText="Connect To Metamask"
+          btnClass="button--green"
+          :callback="ConnectToMetamask"
+        ></Button>
+      </b-col>
 
-      <b-row>
-
-        <h1 class="title">Metamask Connector</h1>
-
-      </b-row>
-
-      <b-row>
-
-        <b-col>
-
-          <Button
-            btnText="Connect To Metamask"
-            btnClass="button--green"
-            :callback="ConnectToMetamask"
-          ></Button>
-
-        </b-col>
-
-        <b-col>
-
-          <Button
-            btnText="Connect with WallectConnect"
-            btnClass="button--grey"
-            :callback="connectToWallet"
-          ></Button>
-
-        </b-col>
-
-      </b-row>
-
-    </b-container>
-
+      <b-col>
+        <Button
+          btnText="Connect with WallectConnect"
+          btnClass="button--grey"
+          :callback="connectToWallet"
+        ></Button>
+      </b-col>
+    </b-row>
   </b-container>
-
 </template>
 
 <script>
@@ -52,14 +36,16 @@ import WalletConnect from '@walletconnect/client';
 import QRCodeModal from '@walletconnect/qrcode-modal';
 export default {
   components: {
+    // eslint-disable-next-line vue/no-reserved-component-names
     Button,
   },
   methods: {
     ConnectToMetamask: () => {
       if (typeof window.ethereum !== 'undefined') {
         console.log('MetaMask is installed!');
+        this.$store.commit('walletUpdate');
       }
-      ethereum.request({ method: 'eth_requestAccounts' });
+      window.ethereum.request({ method: 'eth_requestAccounts' });
     },
     connectToWallet: () => {
       const connector = new WalletConnect({
@@ -103,41 +89,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system,
-    BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-.links button {
-  background-color: transparent;
-}
-</style>
-

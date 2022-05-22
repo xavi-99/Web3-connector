@@ -1,15 +1,24 @@
 <template>
- 
-   <img class="logo" src="~/assets/Metamask_Fox.svg" />
-
-  
+  <img v-if="$store.state.wallet" class="logo" :src="logoSrc()" />
 </template>
 
+<script>
+export default {
+  computed: {
+    logoSrc() {
+      debugger;
+      return '~/assets/' + this.$store.state.wallet + '.svg';
+    },
+  },
+};
+</script>
+
+<style></style>
 <style>
 .logo {
   animation: 1s appear;
   margin: auto;
-  width:300px;
+  width: 300px;
 }
 
 @keyframes appear {

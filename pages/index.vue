@@ -12,10 +12,6 @@
                         ></Button>
                     </b-col>
                 </b-row>
-
-                <b-row>
-                    <JsonPrintter :content="getTodoListResponse"> </JsonPrintter>
-                </b-row>
             </b-container>
         </b-container>
     </div>
@@ -66,8 +62,13 @@ export default {
                         .sayHello()
                         .call()
                         .then((response) => {
-
                             this.setTodoListResponse(response)
+                            this.$bvToast.toast(response, {
+                                title: 'Smartcontract response',
+                                toaster: 'b-toaster-top-center',
+                                solid: true,
+                                variant: "primary"
+                            })
                         })
                 } catch (error) {
                     console.error(error)

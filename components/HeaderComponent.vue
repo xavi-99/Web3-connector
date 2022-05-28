@@ -1,7 +1,7 @@
 <template>
     <b-container fluid>
-        <b-img center :src="image" fluid></b-img>
-        <h5 class="text-center">{{ tittle }}</h5>
+        <b-img class="w-25" center :src="image" fluid></b-img>
+        <!-- <h5 class="text-center">{{ tittle }}</h5> -->
     </b-container>
 </template>
 
@@ -12,7 +12,7 @@ export default {
     props: {
         image: {
             type: String,
-            default: require('@/assets/img/header.png'),
+            default: require('@/assets/img/Metamask.svg'),
         },
     },
     computed: {

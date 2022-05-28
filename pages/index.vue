@@ -5,11 +5,16 @@
             <b-container fluid>
                 <b-row>
                     <b-col>
-                        <Button btn-text="Connect To Web3" btn-class="button--green" :callback="initWeb3"></Button>
+                        <Button
+                            btn-text="Connect To Web3 and say hello from my Smartcontract"
+                            btn-class="button--green"
+                            :callback="initWeb3"
+                        ></Button>
                     </b-col>
                 </b-row>
+
                 <b-row>
-                    <JsonPrintter :content="getInstance"> </JsonPrintter>
+                    <JsonPrintter :content="getTodoListResponse"> </JsonPrintter>
                 </b-row>
             </b-container>
         </b-container>
@@ -18,10 +23,13 @@
 
 <script>
 import Web3 from 'web3'
+import Contract from 'web3-eth-contract'
+
 import { mapGetters, mapMutations } from 'vuex'
 import Button from '../components/Button.vue'
 import HeaderComponent from '../components/HeaderComponent.vue'
 import JsonPrintter from '../components/JsonPrintter.vue'
+import TodoList from '../build/contracts/TodoList.json'
 
 export default {
     components: {
@@ -32,7 +40,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            getInstance: 'web3/getInstance',
+            getTodoListResponse: 'web3/getTodoListResponse',
             getTitle: 'web3/getTitle',
         }),
         web3() {
@@ -42,6 +50,7 @@ export default {
     methods: {
         ...mapMutations({
             setInstance: 'web3/setInstance',
+            setTodoListResponse: 'web3/setTodoListResponse',
         }),
         async initWeb3() {
             if (typeof window.ethereum !== 'undefined') {
@@ -52,16 +61,17 @@ export default {
                     })
                     // Get node info
                     const web3 = new Web3(window.ethereum)
-                    const networkId = await web3.eth.getChainId()
-                    const coinbase = await web3.eth.getCoinbase()
-                    const balance = await web3.eth.getBalance(coinbase)
-                    // Send it to the store
-                    this.setInstance({
-                        networkId,
-                        coinbase,
-                        balance,
-                    })
-                } catch (error) {}
+                    let contract = new web3.eth.Contract(TodoList.abi, '0xEE3b2D9c0028eE045114dbD935Fe0F054aE060b8')
+                    contract.methods
+                        .sayHello()
+                        .call()
+                        .then((response) => {
+
+                            this.setTodoListResponse(response)
+                        })
+                } catch (error) {
+                    console.error(error)
+                }
             }
         },
     },

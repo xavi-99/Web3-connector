@@ -1,22 +1,26 @@
 const web3 = {
-  namespaced: true,
-  state: () => ({
-    web3: {
-      networkid: null,
-      coinbase: null,
-      balance: null,
+    namespaced: true,
+    state: () => ({
+        web3: {
+            networkid: null,
+            coinbase: null,
+            balance: null,
+        },
+        title: 'To do list with Blockchain',
+    }),
+    getters: {
+        getInstance: (state) => {
+            return state.web3
+        },
+        getTitle: (state) => {
+            return state.title
+        },
     },
-  }),
-  getters: {
-    getInstance: (state) => {
-      return state.web3;
+    mutations: {
+        setInstance(state, value) {
+            state.web3 = value
+        },
     },
-  },
-  mutations: {
-    setInstance(state, value) {
-      state.web3 = value;
-    },
-  },
-};
+}
 
-export default web3;
+export default web3

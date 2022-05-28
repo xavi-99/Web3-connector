@@ -1,7 +1,8 @@
 {
-  "name": "Metamask_Connector",
+  "name": "Web3_Connector",
   "version": "1.0.0",
   "private": true,
+  "description": "Basic connector to web3 using nuxt",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -25,18 +26,12 @@
     "rules": {}
   },
   "dependencies": {
-    "@walletconnect/client": "^1.7.8",
-    "@walletconnect/qrcode-modal": "^1.7.8",
-    "babel-eslint": "^10.1.0",
     "bootstrap": "^4.5.3",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.8.2",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-loader": "^4.0.2",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-vue": "^9.0.1",
     "nuxt": "^2.14.12",
-    "prettier": "^2.6.2"
+    "prettier": "^2.6.2",
+    "web3": "^1.7.3"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.1.2",

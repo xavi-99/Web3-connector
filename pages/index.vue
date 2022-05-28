@@ -13,17 +13,9 @@
     <b-row>
       <b-col>
         <Button
-          btnText="Connect To Metamask"
+          btnText="Connect To Web3"
           btnClass="button--green"
-          :callback="ConnectToMetamask"
-        ></Button>
-      </b-col>
-
-      <b-col>
-        <Button
-          btnText="Connect with WallectConnect"
-          btnClass="button--grey"
-          :callback="connectToWallet"
+          :callback="initWeb3"
         ></Button>
       </b-col>
     </b-row>
@@ -32,59 +24,46 @@
 
 <script>
 import Button from '../components/Button.vue';
-import WalletConnect from '@walletconnect/client';
-import QRCodeModal from '@walletconnect/qrcode-modal';
+import Web3 from 'web3';
+import { mapGetters, mapMutations } from 'vuex';
+
 export default {
   components: {
     // eslint-disable-next-line vue/no-reserved-component-names
     Button,
   },
-  methods: {
-    ConnectToMetamask() {
-      if (typeof window.ethereum !== 'undefined') {
-        console.log('MetaMask is installed!');
-      }
-      window.ethereum.request({ method: 'eth_requestAccounts' });
-      this.$store.dispatch('walletUpdate', 'Metamask');
+  computed: {
+    ...mapGetters({
+      getInstance: 'web3/getInstance',
+    }),
+    web3() {
+      return this.getInstance;
     },
-    connectToWallet() {
-      const connector = new WalletConnect({
-        bridge: 'https://bridge.walletconnect.org', // Required
-        qrcodeModal: QRCodeModal,
-      });
-
-      // Check if connection is already established
-      if (!connector.connected) {
-        // create new session
-        connector.createSession();
+  },
+  methods: {
+    ...mapMutations({
+      setInstance: 'web3/setInstance',
+    }),
+    async initWeb3() {
+      if (typeof window.ethereum !== 'undefined') {
+        try {
+          // Ask for connection
+          const accounts = await ethereum.request({
+            method: 'eth_requestAccounts',
+          });
+          // Get node info
+          const web3 = new Web3(window.ethereum);
+          const networkId = await web3.eth.getChainId();
+          const coinbase = await web3.eth.getCoinbase();
+          const balance = await web3.eth.getBalance(coinbase);
+          // Send it to the store
+          this.setInstance({
+            networkId,
+            coinbase,
+            balance,
+          });
+        } catch (error) {}
       }
-
-      // Subscribe to connection events
-      connector.on('connect', (error, payload) => {
-        if (error) {
-          throw error;
-        }
-
-        // Get provided accounts and chainId
-        const { accounts, chainId } = payload.params[0];
-      });
-
-      connector.on('session_update', (error, payload) => {
-        if (error) {
-          throw error;
-        }
-
-        // Get updated accounts and chainId
-        const { accounts, chainId } = payload.params[0];
-      });
-
-      connector.on('disconnect', (error, payload) => {
-        if (error) {
-          throw error;
-        }
-
-        // Delete connector
-      });
     },
   },
 };

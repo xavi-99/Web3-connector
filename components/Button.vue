@@ -1,7 +1,10 @@
 <template>
-  <div>
-    <button :class="btnClass" @click="callback">{{ btnText }}</button>
-  </div>
+  <b-button
+    :class="btnClass"
+    variant="outline-dark"
+    @click="callback"
+    >{{ btnText }}</b-button
+  >
 </template>
 
 <script>
@@ -11,4 +14,3 @@ export default {
 </script>
 
 <style></style>
-

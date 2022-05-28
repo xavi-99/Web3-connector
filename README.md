@@ -1,11 +1,11 @@
-# Metamask_Connector
+# Web3 connector
 
 ## Build Setup
 
 ```bash
 # install dependencies
-$ yarn install 
-or 
+$ yarn install
+or
 $ npm i
 
 # serve with hot reload at localhost:3000

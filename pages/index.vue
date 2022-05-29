@@ -57,7 +57,7 @@ export default {
                     })
                     // Get node info
                     const web3 = new Web3(window.ethereum)
-                    let contract = new web3.eth.Contract(TodoList.abi, '0xEE3b2D9c0028eE045114dbD935Fe0F054aE060b8')
+                    let contract = new web3.eth.Contract(TodoList.abi, '0x06824BdDb616c674Cd55115Af187E305aa80993e')
                     contract.methods
                         .sayHello()
                         .call()

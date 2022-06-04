@@ -10,41 +10,51 @@
                             btn-class="button--green"
                             :callback="connect"
                         ></Button>
+                        <Button btn-text="load Contract" btn-class="button--green" :callback="loadContract"></Button>
+                        <Button btn-text="Get getTask List" btn-class="button--green" :callback="getTaskList"></Button>
+                        <Button btn-text="Say Hello" btn-class="button--green" :callback="sayHello"></Button>
+                        <Button btn-text="Add Task" btn-class="button--green" :callback="addTask"></Button>
                     </b-col>
                 </b-row>
             </b-container>
         </b-container>
-        <TodoList></TodoList>
     </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import Button from '../components/Button.vue'
-import TodoList from '../components/TodoList.vue'
 import HeaderComponent from '../components/HeaderComponent.vue'
-import JsonPrintter from '../components/JsonPrintter.vue'
 
 export default {
     components: {
         // eslint-disable-next-line vue/no-reserved-component-names
         Button,
-        JsonPrintter,
         HeaderComponent,
-        TodoList,
     },
     computed: {
         ...mapGetters({
             getTitle: 'web3/getTitle',
         }),
     },
-    async mounted() {
-        await this.$store.dispatch('web3/connect', false)
-    },
+    // async mounted() {
+    //     await this.$store.dispatch('web3/connect', false)
+    // },
     methods: {
         async connect() {
             await this.$store.dispatch('web3/connect', true)
-            // await this.$store.dispatch('todolist/setContract')
+        },
+        async loadContract() {
+            await this.$store.dispatch('web3/loadContract')
+        },
+        async getTaskList() {
+            await this.$store.dispatch('web3/getTaskList')
+        },
+        async sayHello() {
+            await this.$store.dispatch('web3/sayHello')
+        },
+        async addTask() {
+            await this.$store.dispatch('web3/addTask')
         },
     },
 }

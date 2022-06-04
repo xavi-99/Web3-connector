@@ -8,7 +8,7 @@
                         <Button
                             btn-text="Connect To Web3 and say hello from my Smartcontract"
                             btn-class="button--green"
-                            :callback="initWeb3"
+                            :callback="connect"
                         ></Button>
                     </b-col>
                 </b-row>
@@ -38,9 +38,13 @@ export default {
             getTitle: 'web3/getTitle',
         }),
     },
+    async mounted() {
+        await this.$store.dispatch('web3/connect', false)
+    },
     methods: {
-        initWeb3() {
-            this.$store.dispatch('web3/initWeb3')
+        async connect() {
+            await this.$store.dispatch('web3/connect', true)
+            // await this.$store.dispatch('todolist/setContract')
         },
     },
 }

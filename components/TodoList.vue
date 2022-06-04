@@ -1,6 +1,5 @@
 <template>
     <b-container>
-        <b-button @click="setContract">Get Contract</b-button>
         <b-button @click="getTasks">Get Tasks</b-button>
     </b-container>
 </template>

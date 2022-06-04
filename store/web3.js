@@ -1,39 +1,79 @@
-import Web3 from 'web3'
-
 const web3 = {
     namespaced: true,
     state: () => ({
-        web3: null,
+        account: null,
+        error: null,
+        contract_address: '0xb34BE00849D38c27F0309FF909C10cD8d5f94508',
         title: 'To do list with Blockchain',
     }),
     getters: {
-        getTitle: (state) => {
-            return state.title
-        },
+        getTitle: (state) => state.title,
+        account: (state) => state.account,
+        error: (state) => state.error,
     },
     mutations: {
-        SET_WEB3(state, value) {
-            state.web3 = value
+        setAccount(state, account) {
+            state.account = account
+        },
+        setError(state, error) {
+            state.error = error
         },
     },
     actions: {
-        async initWeb3() {
-            // Check for web3 provider
-            if (typeof window.ethereum !== 'undefined') {
-                try {
-                    // Ask to connect
-                    await window.ethereum.request({ method: 'eth_requestAccounts' })
-                    const web3 = new Web3(window.ethereum)
-                    this.commit('web3/SET_WEB3', web3)
-                } catch (error) {
-                    // User denied account access
-                    console.error('User denied web3 access', error)
+        async connect({ commit, dispatch }, connect) {
+            try {
+                const { ethereum } = window
+                if (!ethereum) {
+                    commit('setError', 'There is no wallet available')
+                    return
+                }
+                if (!(await dispatch('checkIfConnected')) & connect) {
+                    await dispatch('requestAccess')
+                }
+                await dispatch('checkNetwork')
+            } catch (error) {
+                console.log(error)
+                commit('setError', 'Account request refused')
+            }
+        },
+        async checkNetwork({ commit, dispatch }) {
+            const { ethereum } = window
+            const chainId = await ethereum.request({ method: 'eth_chainId' })
+            const rinkebyChainId = '0x4'
+
+            // We want to work only with Rinkeby net
+            if (chainId !== rinkebyChainId) {
+                const isRinkebyChainId = await dispatch('switchNetwork')
+                if (!isRinkebyChainId) {
+                    commit('setError', 'You are not connected to the Rinkeby Network')
                 }
             }
-            // No web3 provider
-            else {
-                console.error('No web3 provider detected')
+        },
+        async switchNetwork() {
+            const { ethereum } = window
+            try {
+                await ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: '0x4' }],
+                })
+                return 1
+            } catch (switchError) {
+                return 0
             }
+        },
+        async checkIfConnected({ commit }) {
+            const { ethereum } = window
+            const accounts = await ethereum.request({ method: 'eth_accounts' })
+            const isAccount = accounts.length !== 0
+            if (isAccount) commit('setAccount', accounts[0])
+            return isAccount
+        },
+        async requestAccess({ commit }) {
+            const { ethereum } = window
+            const accounts = await ethereum.request({
+                method: 'eth_requestAccounts',
+            })
+            commit('setAccount', accounts[0])
         },
     },
 }

@@ -1,11 +1,12 @@
 import TodoList from '../build/contracts/TodoList.json'
 
-const contractAddress = '0x64E7043D182B1e531e7249348eb6293a80dA97c3'
+const contractAddress = '0xb34BE00849D38c27F0309FF909C10cD8d5f94508'
 const todoList = {
     namespaced: true,
     state: () => ({
         tasks: [],
         contract: null,
+        contractInstance: null,
     }),
     getters: {
         getTasks: (state) => {

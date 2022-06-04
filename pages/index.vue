@@ -1,6 +1,5 @@
 <template>
     <div class="wrapper">
-        <HeaderComponent></HeaderComponent>
         <b-container>
             <b-container fluid>
                 <b-row>
@@ -24,13 +23,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import Button from '../components/Button.vue'
-import HeaderComponent from '../components/HeaderComponent.vue'
 
 export default {
     components: {
         // eslint-disable-next-line vue/no-reserved-component-names
         Button,
-        HeaderComponent,
     },
     computed: {
         ...mapGetters({
